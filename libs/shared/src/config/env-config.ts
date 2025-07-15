@@ -1,6 +1,9 @@
 import * as joi from 'joi';
 
 export const config = {
+    ADMIN_API_PORT: 'ADMIN_API_PORT',
+    CORE_API_PORT: 'CORE_API_PORT',
+
     MONGODB_URI: 'MONGODB_URI',
 
     ADMIN_JWT_ACCESS_SECRET: 'ADMIN_JWT_ACCESS_SECRET',
@@ -27,6 +30,9 @@ export const config = {
     SWAGGER_PASSWORD: 'SWAGGER_PASSWORD',
 };
 export const validationSchema = joi.object({
+    [config.ADMIN_API_PORT]: joi.string().required(),
+    [config.CORE_API_PORT]: joi.string().required(),
+
     [config.MONGODB_URI]: joi.string().required(),
     [config.ADMIN_JWT_ACCESS_SECRET]: joi.string().required(),
     [config.ADMIN_JWT_ACCESS_EXPIRATION_TIME]: joi.string().required(),
