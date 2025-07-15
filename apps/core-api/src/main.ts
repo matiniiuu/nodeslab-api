@@ -85,7 +85,7 @@ async function bootstrap() {
     app.enableCors(options);
     await app.register(multiPart, { limits: { fileSize: 100 * 1024 * 1024 } });
     await app.listen(
-        +(configService.get(config.ADMIN_API_PORT) ?? 8000),
+        +(configService.get(config.CORE_API_PORT) ?? 8000),
         '0.0.0.0',
     );
 }
