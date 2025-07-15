@@ -4,6 +4,10 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { PublishMessageDto, PublishReadReceiptDto } from '@app/shared';
 import {
+    ServiceToken as ChatServiceToken,
+    IService as IChatService,
+} from '../chats/i.interface';
+import {
     IRepository,
     RepositoryToken,
 } from '../repositories/messages.repository';
@@ -12,6 +16,7 @@ import {
 export class MessageConsumer {
     constructor(
         @Inject(RepositoryToken) private readonly repository: IRepository,
+        @Inject(ChatServiceToken) private readonly chatService: IChatService,
     ) {}
     @RabbitSubscribe({
         exchange: 'messages',
@@ -19,7 +24,12 @@ export class MessageConsumer {
         queue: 'messages.new.queue',
     })
     public async handleNewMessage(dto: PublishMessageDto) {
-        await this.repository.create(dto);
+        const chatId = await this.chatService.getOrCreateChatId(
+            dto.from,
+            dto.to,
+        );
+        const messageId = await this.repository.create({ ...dto, chatId });
+        await this.chatService.updateLastMessage(chatId, messageId);
     }
 
     @RabbitSubscribe({

@@ -9,8 +9,8 @@ import { IRepository } from '../messages.repository';
 @Injectable()
 export class RepositoryMongoDB implements IRepository {
     constructor(@InjectModel(Message.name) private model: Model<Message>) {}
-    async create(dto: PublishMessageDto): Promise<void> {
-        await this.model.create(dto);
+    async create(dto: PublishMessageDto): Promise<string> {
+        return (await this.model.create(dto))._id;
     }
     async updateReadReceipt(dto: PublishReadReceiptDto): Promise<void> {
         await this.model.updateOne(

@@ -2,6 +2,7 @@ export class PublishMessageDto {
     from: string;
     to: string;
     content: string;
+    chatId?: string;
 }
 export class PublishReadReceiptDto {
     messageId: string;

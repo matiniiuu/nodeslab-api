@@ -48,7 +48,7 @@ export class AuthService implements IAuthService {
         if (!isPasswordsMatch) {
             throw new NotFoundException(InvalidEmailOrPassword);
         }
-        const { tokenPayload } = new UserJwtPayload(user.email);
+        const { tokenPayload } = new UserJwtPayload(user.email, `${user._id}`);
         const newRefreshToken = this.jwtService.sign(tokenPayload, {
             secret: this.configService.get(config.USER_JWT_REFRESH_SECRET),
             expiresIn: this.configService.get(
@@ -63,8 +63,8 @@ export class AuthService implements IAuthService {
             ),
         );
     }
-    generateAccessToken({ email }: User): string {
-        const { tokenPayload } = new UserJwtPayload(email);
+    generateAccessToken({ email, id }: User): string {
+        const { tokenPayload } = new UserJwtPayload(email, id);
         return this.jwtService.sign(tokenPayload);
     }
 }

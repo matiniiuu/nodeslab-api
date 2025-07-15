@@ -7,8 +7,10 @@ import {
     LoggerModule,
 } from '@app/shared';
 
-import MessagesModule from './messages/m.module';
 import { RedisModule } from './redis/redis.module';
+
+import ChatsModule from './chats/m.module';
+import MessagesModule from './messages/m.module';
 import UsersModule from './users/m.module';
 
 @Module({
@@ -21,6 +23,7 @@ import UsersModule from './users/m.module';
         //* app api modules
         UsersModule,
         MessagesModule,
+        ChatsModule,
     ],
 })
 export class AppModule {}

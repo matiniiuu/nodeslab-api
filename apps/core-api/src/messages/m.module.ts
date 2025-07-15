@@ -1,14 +1,15 @@
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
 import { config, DatabaseModule, Message, MessageSchema } from '@app/shared';
 
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import ChatsModule from '../chats/m.module';
+
 import { RepositoryToken } from '../repositories/messages.repository';
 import { RepositoryMongoDB } from '../repositories/mongodb/messages.mongodb';
 import { MessageConsumer } from './c.consumer';
-import { MainController } from './c.controller';
 import { MessageGateway } from './g.gateway';
 import { ServiceToken } from './i.interface';
 import { Service } from './s.service';
@@ -33,8 +34,8 @@ import { Service } from './s.service';
         DatabaseModule.forFeature([
             { name: Message.name, schema: MessageSchema },
         ]),
+        ChatsModule,
     ],
-    controllers: [MainController],
     providers: [
         MessageGateway,
         MessageConsumer,
