@@ -1,0 +1,41 @@
+{
+    "$schema": "https://json.schemastore.org/nest-cli",
+    "collection": "@nestjs/schematics",
+    "sourceRoot": "apps/panel-api/src",
+    "compilerOptions": {
+        "deleteOutDir": true,
+        "webpack": true,
+        "tsConfigPath": "apps/panel-api/tsconfig.app.json"
+    },
+    "monorepo": true,
+    "root": "apps/panel-api",
+    "projects": {
+        "panel-api": {
+            "type": "application",
+            "root": "apps/panel-api",
+            "entryFile": "main",
+            "sourceRoot": "apps/panel-api/src",
+            "compilerOptions": {
+                "tsConfigPath": "apps/panel-api/tsconfig.app.json"
+            }
+        },
+        "core-api": {
+            "type": "application",
+            "root": "apps/core-api",
+            "entryFile": "main",
+            "sourceRoot": "apps/core-api/src",
+            "compilerOptions": {
+                "tsConfigPath": "apps/core-api/tsconfig.app.json"
+            }
+        },
+        "shared": {
+            "type": "library",
+            "root": "libs/shared",
+            "entryFile": "index",
+            "sourceRoot": "libs/shared/src",
+            "compilerOptions": {
+                "tsConfigPath": "libs/shared/tsconfig.lib.json"
+            }
+        }
+    }
+}
