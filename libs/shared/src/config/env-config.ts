@@ -28,6 +28,11 @@ export const config = {
 
     SWAGGER_USERNAME: 'SWAGGER_USERNAME',
     SWAGGER_PASSWORD: 'SWAGGER_PASSWORD',
+
+    REDIS_URL: 'REDIS_URL',
+    REDIS_PASSWORD: 'REDIS_PASSWORD',
+
+    RABBITMQ_URI: 'RABBITMQ_URI',
 };
 export const validationSchema = joi.object({
     [config.ADMIN_API_PORT]: joi.string().required(),
@@ -56,4 +61,9 @@ export const validationSchema = joi.object({
 
     [config.SWAGGER_USERNAME]: joi.string().required(),
     [config.SWAGGER_PASSWORD]: joi.string().required(),
+
+    [config.REDIS_URL]: joi.string().required(),
+    [config.REDIS_PASSWORD]: joi.string().required(),
+
+    [config.RABBITMQ_URI]: joi.string().required(),
 });

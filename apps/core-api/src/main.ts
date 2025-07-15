@@ -8,6 +8,7 @@ import {
     NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { RedisClientType } from 'redis';
 
 import { AppModule } from './app.module';
 
@@ -17,6 +18,8 @@ import {
     MongooseValidationException,
     RequestLogger,
 } from '@app/shared';
+import { RedisIoAdapter } from './redis';
+import { REDIS_CLIENT } from './redis/redis.module';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -84,6 +87,11 @@ async function bootstrap() {
     };
     app.enableCors(options);
     await app.register(multiPart, { limits: { fileSize: 100 * 1024 * 1024 } });
+
+    const redisIoAdapter = new RedisIoAdapter();
+    await redisIoAdapter.connectToRedis(app.get<RedisClientType>(REDIS_CLIENT));
+
+    app.useWebSocketAdapter(redisIoAdapter);
     await app.listen(
         +(configService.get(config.CORE_API_PORT) ?? 8000),
         '0.0.0.0',
