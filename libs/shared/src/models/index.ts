@@ -1,3 +1,4 @@
+export * from './auto-message.entity';
 export * from './chat.entity';
 export * from './language.entity';
 export * from './message.entity';

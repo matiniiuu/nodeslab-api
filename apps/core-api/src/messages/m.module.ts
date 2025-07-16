@@ -28,6 +28,7 @@ import { Service } from './s.service';
             useFactory: async (configService: ConfigService) => ({
                 exchanges: [{ name: 'messages', type: 'direct' }],
                 uri: configService.getOrThrow(config.RABBITMQ_URI),
+                connectionInitOptions: { wait: true, timeout: 10000 },
             }),
             inject: [ConfigService],
         }),

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import {
     AwsModule,
@@ -20,6 +21,8 @@ import UsersModule from './users/m.module';
         DatabaseModule,
         AwsModule,
         RedisModule,
+        ScheduleModule.forRoot(),
+
         //* app api modules
         UsersModule,
         MessagesModule,

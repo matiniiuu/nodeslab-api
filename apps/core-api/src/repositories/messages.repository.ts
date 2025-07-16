@@ -1,7 +1,6 @@
-import { PublishMessageDto, PublishReadReceiptDto } from '@app/shared';
+import { AutoMessageDto } from '@app/shared';
 
 export interface IRepository {
-    create(dto: PublishMessageDto): Promise<string>;
-    updateReadReceipt(dto: PublishReadReceiptDto): Promise<void>;
+    insertMany(dto: AutoMessageDto[]): Promise<void>;
 }
-export const RepositoryToken = Symbol('MessagesRepositoryToken');
+export const RepositoryToken = Symbol('AutoMessagesRepositoryToken');

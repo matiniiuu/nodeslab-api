@@ -12,7 +12,7 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { config } from '@app/shared';
-import { Inject } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { RedisClientType } from 'redis';
 import { REDIS_CLIENT } from '../redis/redis.module';
 
@@ -49,6 +49,8 @@ Database:
 export class MessageGateway
     implements OnGatewayConnection, OnGatewayDisconnect
 {
+    private readonly logger = new Logger(MessageGateway.name);
+
     @WebSocketServer()
     server: Server;
 
@@ -62,20 +64,21 @@ export class MessageGateway
     ) {}
 
     async handleConnection(socket: Socket) {
-        console.log('socket: user is trying to connect');
+        this.logger.log('socket: user is trying to connect');
+
         const token = socket.handshake.query.authorization as string;
         const userId = socket.handshake.query.authorization as string;
-        console.log('socket: user connection token', token);
+        this.logger.log('socket: user connection token', token);
         if (!token || !userId) socket.disconnect();
         try {
             const { email } = this.jwtService.verify(token, {
                 secret: this.configService.get(config.USER_JWT_ACCESS_SECRET),
             });
-            console.log('socket: users object', email);
+            this.logger.log('socket: users object', email);
 
             await this.redis.hSet('online_users', userId, socket.id);
         } catch (error) {
-            console.log({ error });
+            this.logger.error(error);
             socket.disconnect();
         }
     }
@@ -124,7 +127,6 @@ export class MessageGateway
         if (fromSocket) {
             this.server.to(fromSocket).emit('read_receipt', { messageId });
         }
-        const readerId = client.handshake.query.userId as string;
 
         //! optionally persist read receipt
         await this.messageService.publishReadReceipt({ messageId });

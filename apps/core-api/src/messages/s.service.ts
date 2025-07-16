@@ -34,6 +34,4 @@ export class Service implements IService {
     ): Promise<void> {
         //! integrate with FCM/APNs
     }
-
-    getChats() {}
 }
